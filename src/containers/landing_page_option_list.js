@@ -1,33 +1,36 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import { selectBook } from '../actions/index';
 import { bindActionCreators } from 'redux';
+import {Link} from 'react-router';
 
-class LangingPageOptionList extends Component {
+// import {List, ListItem} from 'material-ui/List';
+// import ContentInbox from 'material-ui/svg-icons/content/inbox';
+
+import { landingPageSelectOption } from '../actions/landing_page_select_option';
+
+class LandingPageOptionList extends Component {
   renderList(){
     return this.props.optionList.map(option => {
-      return
-        <li key="option.index">
-          {option.title}
-        </li>
+      return (
+        // <ListItem key={option.order} primaryText={option.title} leftIcon={<ContentInbox/>} className="optionFillPage"/>
+        <div key={option.order} className="fillPageItem">
+          <Link to={option.route}>
+            {option.title}
+          </Link>
+        </div>
+      );
     });
   }
 
   render(){
-    return (<ul>{this.renderList()}</ul>);
+    return (<div className="fillPageContainer">{this.renderList()}</div>);
   }
 }
 
 function mapStateToProps(state){
   return {
-    optionList: state.landingPage.optionList
+    optionList: state.landingPage //.optionList
   };
 }
 
-//Anything returned from this function will end up as props on the BookList container
-function mapDispatchToProps(dispatch) {
-  //Whenever selectBook is called, the result should be passed to all of our reducers
-  return null; //bindActionCreators({ selectBook: selectBook }, dispatch);
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(LangingPageOptionList);
+export default connect(mapStateToProps, {landingPageSelectOption})(LandingPageOptionList);
